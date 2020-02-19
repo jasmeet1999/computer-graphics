@@ -1,26 +1,23 @@
-pt1 = list()
-pt2 = list()
+import pandas as pd
 
+pts = list()
+
+# Input four co-ordinates
 print("Enter x1,y1 and x2,y2:")
+while(len(pts) != 4):
+    pts = input().split()
+    if len(pts) != 4:
+        print("Enter 4 points : x1 y1 x2 y2")
+        print("Ex. 0 0 5 5")
 
-for i in range(0,4):
-    if i < 2:
-        pt1.append(int(input()))
-    else:
-        pt2.append(int(input()))
-
-x1,y1 = pt1[0],pt1[1]
-x2,y2 = pt2[0],pt2[1]
-
-#print("(x1,y1) = (" + str(x1) + "," + str(y1) + ")")
-#print("(x2,y2) = (" + str(x2) + "," + str(y2) + ")")
+x1,y1 = int(pts[0]),int(pts[1])
+x2,y2 = int(pts[2]),int(pts[3])
 
 soln_table = {"i" : [],
               "setpixel" : [],
               "x" : [],
               "y" : []
               }
-
 
 if abs(x2-x1) >= abs(y2-y1):
     length = abs(x2-x1)
@@ -43,10 +40,21 @@ while i <= length:
     soln_table["setpixel"].append((int(x),int(y)))
     x += del_x
     y += del_y
+    if i == length:
+        pixels_x.append(x)
+        pixels_y.append(y)
     i += 1
 
 soln_table["x"] = pixels_x
 soln_table["y"] = pixels_y
 
-print(soln_table)
+for i in range(0,length*2+1):
+    if i%2 == 0:
+        soln_table["i"].insert(i,"")
+        soln_table["setpixel"].insert(i, "")
+    else:
+        soln_table["x"].insert(i,"")
+        soln_table["y"].insert(i, "")
 
+framed_soln_table = pd.DataFrame(soln_table)
+print(framed_soln_table)
